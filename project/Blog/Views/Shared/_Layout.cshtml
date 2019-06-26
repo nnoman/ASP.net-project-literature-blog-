@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+
+    <title>@ViewBag.Title</title>
+    <link href="@Url.Content("~/Content/Blog.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("E:/project/Blog/Scripts/JQuery.js")" type="text/javascript"></script>
+    @RenderSection("ExtraHeaders", false)
+</head>
+
+<body>
+    <div id="header">
+        <a href="@Href("~/")"><img src="@Href("~/Content/Images/Blogg.png")" alt="Al Noman" /></a>
+        @if (ViewBag.IsAdmin ?? false)
+        {
+            <div class="controlPanel">
+                <a href="@Href("~/Posts/Edit")" class="button">New Post</a>
+                <a href="@Href("~/Accounts/Logout")" class="button">Logout</a>
+            </div> 
+        }
+        else
+        {
+             <div class="controlPanel">
+                <a href="@Href("~/Accounts/Login")" class="button">Login</a>
+            </div> 
+        }
+    </div>
+    <div id="content">
+        <div id="topSeparator" class="separator"></div>
+        <div id="sidebar"></div>
+        <div id="main">
+            @RenderBody()
+        </div>
+        <div id="bottomSeparator" class="separator"></div>
+    </div>
+    <div id="footer">
+        <div id="copyright">Copyright &copy; 1607031,Al Noman</div>
+        
+    </div>
+</body>
+</html>

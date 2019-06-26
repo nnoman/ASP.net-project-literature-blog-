@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Blog1.Models.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="Blog1ModelsStoreContainer">
+    <EntitySet Name="Administrators" EntityType="Blog1.Models.Store.Administrators" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Comments" EntityType="Blog1.Models.Store.Comments" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Posts" EntityType="Blog1.Models.Store.Posts" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PostsTags" EntityType="Blog1.Models.Store.PostsTags" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Tags" EntityType="Blog1.Models.Store.Tags" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_Comments_Posts" Association="Blog1.Models.Store.FK_Comments_Posts">
+      <End Role="Posts" EntitySet="Posts" />
+      <End Role="Comments" EntitySet="Comments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PostsTags_Posts" Association="Blog1.Models.Store.FK_PostsTags_Posts">
+      <End Role="Posts" EntitySet="Posts" />
+      <End Role="PostsTags" EntitySet="PostsTags" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PostsTags_Tags" Association="Blog1.Models.Store.FK_PostsTags_Tags">
+      <End Role="Tags" EntitySet="Tags" />
+      <End Role="PostsTags" EntitySet="PostsTags" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Administrators">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="128" />
+    <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="128" />
+  </EntityType>
+  <EntityType Name="Comments">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="PostID" Type="int" Nullable="false" />
+    <Property Name="DateTime" Type="datetime" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="128" />
+    <Property Name="Email" Type="nvarchar" Nullable="false" MaxLength="128" />
+    <Property Name="Body" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Posts">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Title" Type="nvarchar" Nullable="false" MaxLength="256" />
+    <Property Name="DateTime" Type="datetime" Nullable="false" />
+    <Property Name="Body" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PostsTags">
+    <Key>
+      <PropertyRef Name="PostID" />
+      <PropertyRef Name="TagID" />
+    </Key>
+    <Property Name="PostID" Type="int" Nullable="false" />
+    <Property Name="TagID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Tags">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="64" />
+  </EntityType>
+  <Association Name="FK_Comments_Posts">
+    <End Role="Posts" Type="Blog1.Models.Store.Posts" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Comments" Type="Blog1.Models.Store.Comments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Posts">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Comments">
+        <PropertyRef Name="PostID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PostsTags_Posts">
+    <End Role="Posts" Type="Blog1.Models.Store.Posts" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="PostsTags" Type="Blog1.Models.Store.PostsTags" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Posts">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="PostsTags">
+        <PropertyRef Name="PostID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PostsTags_Tags">
+    <End Role="Tags" Type="Blog1.Models.Store.Tags" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="PostsTags" Type="Blog1.Models.Store.PostsTags" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tags">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="PostsTags">
+        <PropertyRef Name="TagID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
